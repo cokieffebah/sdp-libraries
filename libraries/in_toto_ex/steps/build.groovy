@@ -1,3 +1,3 @@
 void call(){
-   println get_intoto_layout
+   println get_intoto_layout()
 }
