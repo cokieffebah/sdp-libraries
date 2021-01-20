@@ -1,0 +1,1 @@
+String call(){ return resource("in-toto") }

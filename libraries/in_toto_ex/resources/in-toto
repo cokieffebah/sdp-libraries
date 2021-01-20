@@ -1,0 +1,56 @@
+{ "signed" : { 
+    "_type" : "layout",
+    "expires" : "<EXPIRES>",
+    "keys" : {
+        "<UPSTREAM_DEV1_KEYID>" : "<UPSTREAM_DEV1_KEY>",
+        "<UPSTREAM_DEV2_KEYID>" : "<UPSTREAM_DEV2_KEY>"
+     },
+    "steps" : [
+      {
+        "name": "checkout-vcs",
+        "threshold": 1,
+        "expected_materials": [ ],
+        "expected_products": [
+          ["CREATE", "src/*"],
+          ["CREATE", "vcs.log"]
+        ],
+        "pubkeys": [
+          "<UPSTREAM_DEV1_KEYID>"
+        ],
+        "expected_command": "git tag -s"
+      },
+      {
+        "name": "compile-docs",
+        "threshold": 1,
+        "expected_materials": [
+          ["MATCH", "src/*", "WITH", "PRODUCTS", "FROM", "check-out-vcs"]
+        ],
+        "expected_products": [
+          ["CREATE", "doc/*"]
+        ],
+        "pubkeys": [
+          "UPSTREAM_DEV2_KEYID"
+        ],
+        "expected_command": "sphinx"
+      }
+     ],
+     "inspect": [
+      {
+        "name": "verify-vcs-commits",
+        "expected_materials": [
+           ["MATCH", "vcs.log", "WITH", "PRODUCTS", "FROM", "check-out-vcs"]
+        ],
+        "expected_products": [
+           ["MATCH", "src/*", "WITH", "PRODUCTS", "FROM", "check-out-vcs"]
+        ],
+        "run": "inspect_vcs_log -l vcs.log -P UPSTREAM_PUBKEY -P UPSTREAM_PUBKEY"
+      }
+    ]
+  },
+  "signatures" : [
+    { "keyid" : "<UPSTREAM_KEYID>",
+      "method" : "ed25519",
+      "sig" : "90d2a06c7a6c2a6a93a9f5771eb2e5ce0c93dd5..."
+    }
+  ]
+}

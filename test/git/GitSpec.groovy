@@ -59,7 +59,7 @@ public class GitSpec extends JTEPipelineSpecification {
   }
 
   // call(String action)
-  def "The call(Map args) method is called with args=[action: null]" () {
+  def "The call with Map args method is called with args=action: null" () {
 
   }
 
