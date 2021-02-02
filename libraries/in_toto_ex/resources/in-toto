@@ -1,6 +1,6 @@
 { "signed" : { 
     "_type" : "layout",
-    "expires" : "<EXPIRES>",
+    "expires" : "2021-02-25T12:20:49Z",
     "keys" : {
         "<UPSTREAM_DEV1_KEYID>" : "<UPSTREAM_DEV1_KEY>",
         "<UPSTREAM_DEV2_KEYID>" : "<UPSTREAM_DEV2_KEY>"
