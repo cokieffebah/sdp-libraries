@@ -1,6 +1,6 @@
 package libraries.in_toto_utils
 
-@Cleanup
+@CleanUp
 void call(){
 
 }
