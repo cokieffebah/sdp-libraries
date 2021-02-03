@@ -1,12 +1,11 @@
 package libraries.in_toto_utils
 
-void call(Map args = [:], body){
+void call(body){
    docker.image(config.inside_image).inside {
        record_start( args.record_config, config)
        body()
        record_stop( args.record_config, config)
    }
-
 }
 
 
