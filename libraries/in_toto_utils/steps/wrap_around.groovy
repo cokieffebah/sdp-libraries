@@ -7,7 +7,9 @@ void call(body){
 //        record_stop( [:], config)
 //    }
    x = 5
+   node{
    body()
+   }
 }
 
 
