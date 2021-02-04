@@ -1,7 +1,7 @@
 package libraries.in_toto_ex
 
 void call(){
-   docker.image(config.inside_image).inside{
+   docker.image("in-toto-python:demo").inside{
       echo ""
    }
    println "printing layout for scan:"
