@@ -1,6 +1,5 @@
 package libraries.in_toto_utils
 
-@CleanUp
 void call(){
     println "pipelineConfig.intotoCollector: ${pipelineConfig.intotoCollector}"
     
