@@ -6,6 +6,7 @@ void call(body){
        body()
        record_stop( [:], config)
    }
+   return
 }
 
 
