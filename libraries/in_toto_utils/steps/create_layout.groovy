@@ -5,7 +5,8 @@ void call(){
     println "pipelineConfig.intotoCollector: ${pipelineConfig.intotoCollector}"
     List skip_libs = get_skip_libs()
     
-    pipelineConfig.intotoCollector.each{ c ->
+    // using for because I wanted 'continue'
+    for( c in pipelineConfig.intotoCollector ){
         if( c.library in skip_libs){
           println "skipping: ${c}: pipelineConfig.libraries[${c.library}"
           continue
