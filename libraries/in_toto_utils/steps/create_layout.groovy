@@ -8,7 +8,7 @@ void call(){
     pipelineConfig.intotoCollector.each{ c ->
         if( c.library in skip_libs){
           println "skipping: ${c}: pipelineConfig.libraries[${c.library}"
-          break
+          continue
         }
 
         if( pipelineConfig.libraries[c.library].in_toto ){
