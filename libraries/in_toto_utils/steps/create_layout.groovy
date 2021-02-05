@@ -7,10 +7,10 @@ void call(){
 
     // using for because I wanted 'continue'
     for( c in collector ){
-        if( pipelineConfig.libraries[c.library].in_toto ){
-          println "for ${c}: pipelineConfig.libraries[${c.library}].in_toto[${c.step}]: ${pipelineConfig.libraries[c.library].in_toto[c.step]}"
+        if( get_collector.can_collect(c.library, c.step) ){
+          println "for ${c}: ${get_collector.step_config(c.library, c.step)}"
         } else {
-          println "for ${c}: null == pipelineConfig.libraries[${c.library}].in_toto"
+          println "for ${c}: null"
         }
     }
 }

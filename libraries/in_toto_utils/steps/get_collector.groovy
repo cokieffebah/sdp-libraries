@@ -10,7 +10,17 @@ List call(){
     return pipelineConfig[queue_name]
 }
 
-boolean is_collectable( String lib, String step){
+boolean can_collect( String lib, String step){
     def library = pipelineConfig.libraries[lib]
     return library && library.in_toto && library.in_toto.containsKey(step)
+}
+
+Map step_config( String lib, String step ){
+    def ret = null
+    def library = pipelineConfig.libraries[lib]
+    if( can_collect(lib,step) ){
+        ret = library.in_toto[step]
+    } 
+
+    return ret
 }
