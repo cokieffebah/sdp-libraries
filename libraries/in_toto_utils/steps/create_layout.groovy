@@ -2,9 +2,9 @@ package libraries.in_toto_utils
 
 @CleanUp
 void call(){
-    println "pipelineConfig.intotoCollector: ${pipelineConfig.intotoCollector}"
-    
-    List collector = get_collector()
+  List collector = get_collector()
+    println "pipelineConfig.intotoCollector: ${collector}"
+
     // using for because I wanted 'continue'
     for( c in collector ){
         if( pipelineConfig.libraries[c.library].in_toto ){
