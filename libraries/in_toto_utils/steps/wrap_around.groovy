@@ -13,13 +13,13 @@ void call(String step, body = {}){
 
 
 void record_start(Map args, Map config){
-    List cmd = ["in-toto-record start --verbose"]
-    cmd << " --step-name ${args.step}"
-    if( args.materials ){
-      cmd << " --materials ${args.materials}"
-    }
-    cmd << " --key ${args.key}"
-    sh( script: cmd.join("") )
+    // List cmd = ["in-toto-record start --verbose"]
+    // cmd << " --step-name ${args.step}"
+    // if( args.materials ){
+    //   cmd << " --materials ${args.materials}"
+    // }
+    // cmd << " --key ${args.key}"
+    // sh( script: cmd.join("") )
 }
 
 void record_stop(Map args, Map config){
