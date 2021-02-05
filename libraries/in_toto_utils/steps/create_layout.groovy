@@ -9,7 +9,7 @@ void call(){
     // using for because I wanted 'continue'
     for( c in pipelineConfig.intotoCollector ){
         if( c.library in skip_libs){
-          println "skipping: ${c}: skipping library: pipelineConfig.libraries[${c.library}]"
+          println "skipping: ${c}: skipping library"
           continue
         }
 
