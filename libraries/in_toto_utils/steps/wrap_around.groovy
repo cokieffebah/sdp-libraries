@@ -6,7 +6,7 @@ void call(String step, body = {}){
         unstash 'workspace'
         record_start( [step: step, key: 'bob'], config)
         body()
-        record_stop( stop_args, config)
+        record_stop( [step: step, key: 'bob'], config)
         stash 'workspace'
     }
 }
