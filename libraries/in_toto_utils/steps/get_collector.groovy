@@ -9,3 +9,8 @@ List call(){
     
     return pipelineConfig[queue_name]
 }
+
+boolean is_collectable( String lib, String step){
+    def library = pipelineConfig.libraries[lib]
+    return library && library.in_toto && library.in_toto.containsKey(step)
+}
