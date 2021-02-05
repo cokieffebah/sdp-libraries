@@ -8,5 +8,5 @@ void call(){
 
 boolean is_collectable( String lib, String step){
     def library = pipelineConfig.libraries[lib]
-    return library && library.in_toto && (library.in_toto[step] != null )
+    return library && library.in_toto && library.in_toto.containsKey(step)
 }
