@@ -58,7 +58,7 @@ String expectedListToString(String cmdArg, List expects){
 
             current = current.join(" ")
         }
-        output << "'${current}'".toString()
+        output << "${current}".toString()
     }
 
     return cmdArg + " " + output.join(" ")
