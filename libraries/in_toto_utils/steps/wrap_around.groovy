@@ -14,11 +14,11 @@ void call(String step, body = {}){
 
 void record_start(String step){
     def stepWrapper = getBinding().getStep(step)
-    Map args = get_collector.step_config( stepWrapper.library, step)
+    Map args = get_collector.record_config( stepWrapper.library, step)
     List cmd = ["in-toto-record start --verbose"]
     cmd << "--step-name ${step}"
     if( args.materials ){
-      cmd << expectedListToString("--materials", args.materials)
+      cmd << "--materials ${args.materials}"
     }
 
     if( args.metadata_dir ){
@@ -31,11 +31,11 @@ void record_start(String step){
 
 void record_stop(String step){
     def stepWrapper = getBinding().getStep(step)
-    Map args = get_collector.step_config( stepWrapper.library, step)
+    Map args = get_collector.record_config( stepWrapper.library, step)
     List cmd = ["in-toto-record stop --verbose"]
     cmd << "--step-name ${step}"
     if( args.products ){
-      cmd << expectedListToString("--products", args.products)
+      cmd << "--products ${args.products}"
     }
     
     if( args.metadata_dir ){

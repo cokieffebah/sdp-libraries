@@ -24,3 +24,11 @@ Map step_config( String lib, String step ){
 
     return ret
 }
+
+Map record_config( String lib, String step ){
+    return step_config( lib, step )?.record 
+}
+
+Map layout_config( String lib, String step ){
+    return step_config( lib, step )?.layout 
+}
