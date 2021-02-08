@@ -1,13 +1,13 @@
 package libraries.in_toto_utils
 
 void call(String step, body = {}){
-
+    String workspace = config.workspace ?: 'workspace'
     docker.image(config.inside_image).inside {
-        unstash 'workspace'
+        unstash workspace
         record_start( step )
         body()
         record_stop( step )
-        stash 'workspace'
+        stash workspace
     }
 }
 
