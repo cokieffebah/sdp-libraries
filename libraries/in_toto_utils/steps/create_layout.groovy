@@ -8,7 +8,7 @@ void call(){
     // using for because I wanted 'continue'
     for( c in collector ){
         if( get_collector.can_collect(c.library, c.step) ){
-          println "for ${c}: ${get_collector.step_config(c.library, c.step)}"
+          println "for ${c}: ${get_collector.layout_config(c.library, c.step)}"
         } else {
           println "for ${c}: null"
         }
