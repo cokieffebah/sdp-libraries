@@ -18,7 +18,7 @@ void record_start(String step){
     List cmd = ["in-toto-record start --verbose"]
     cmd << "--step-name ${step}"
     if( args.materials ){
-      cmd << "--materials ${args.materials}"
+      cmd << expectedListToString("--materials", args.materials)
     }
     cmd << "--key ${args.key}"
     sh( script: cmd.join(" ") )
@@ -28,10 +28,28 @@ void record_stop(String step){
     def stepWrapper = getBinding().getStep(step)
     Map args = get_collector.step_config( stepWrapper.library, step)
     List cmd = ["in-toto-record stop --verbose"]
-    cmd << " --step-name ${step}"
-    if( args.materials ){
-      cmd << " --products ${args.products}"
+    cmd << "--step-name ${step}"
+    if( args.products ){
+      cmd << expectedListToString("--products", args.products)
     }
-    cmd << " --key ${args.key}"
-    sh( script: cmd.join("") )
+    cmd << "--key ${args.key}"
+    sh( script: cmd.join(" ") )
+}
+
+String expectedListToString(String cmdArg, List expects){
+    List output = []
+    expects.each{ ex ->
+        def current = ex
+        if( ex instanceof List ){
+            current = []
+            ex.each{ ex1 ->
+                current << ex1
+            }
+
+            current = current.join(" ")
+        }
+        output << current
+    }
+
+    return cmdArg + output.join(" " + cmdArg)
 }
