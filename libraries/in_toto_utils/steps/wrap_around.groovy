@@ -20,6 +20,11 @@ void record_start(String step){
     if( args.materials ){
       cmd << expectedListToString("--materials", args.materials)
     }
+
+    if( args.metadata_dir ){
+        cmd << "-d ${args.metadata_dir}"
+    }
+
     cmd << "--key ${args.key}"
     sh( script: cmd.join(" ") )
 }
@@ -32,6 +37,11 @@ void record_stop(String step){
     if( args.products ){
       cmd << expectedListToString("--products", args.products)
     }
+    
+    if( args.metadata_dir ){
+        cmd << "-d ${args.metadata_dir}"
+    }
+    
     cmd << "--key ${args.key}"
     sh( script: cmd.join(" ") )
 }
