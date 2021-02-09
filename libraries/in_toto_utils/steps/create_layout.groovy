@@ -14,7 +14,11 @@ void call(){
       }
   }
 
-  writeFile( file:"create_layout.py", text: resource("create_layout.py"))
+  node{
+    unstash 'workspace'
+    writeFile( file:"create_layout.py", text: resource("create_layout.py"))
+    stash 'workspace'
+  }
 }
 
 void create_layout(Map args){
