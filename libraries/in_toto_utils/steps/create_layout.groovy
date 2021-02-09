@@ -29,13 +29,13 @@ void call(){
       }
   }
 
-  intotot_wrap{
+  intoto_wrap{
     writeJSON( json: layout_json, file: "layout.json", pretty:4)
     writeFile( file:"create_layout.py", text: resource("create_layout.py"))
   }
 }
 
-void intotot_wrap(body){
+void intoto_wrap(body){
     String workspace = config.workspace ?: 'workspace'
     docker.image(config.inside_image).inside {
         unstash workspace
