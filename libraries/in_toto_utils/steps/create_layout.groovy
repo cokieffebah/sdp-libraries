@@ -14,10 +14,11 @@ void call(){
       if( get_collector.can_collect(c.library, c.step) ){
         def layout_config = get_collector.layout_config(c.library, c.step)
         println "for ${c}: ${layout_config}"
-        stepList << layout_config
-        println "for stepList[${stepList.size}]: ${stepList.last()}"
-        stepList.last().name = c.step
-        //println "for ${c}: ${get_collector.layout_config(c.library, c.step)}"
+        if( layout_config ){
+          stepList << layout_config
+          stepList.last().name = c.step
+        }
+       
       } else {
         println "for ${c}: null"
       }
