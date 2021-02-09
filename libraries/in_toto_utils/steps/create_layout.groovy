@@ -14,7 +14,7 @@ void call(){
       }
   }
 
-  writeFile( file:"create_layout.py": text: resource("create_layout.py"))
+  writeFile( file:"create_layout.py", text: resource("create_layout.py"))
 }
 
 void create_layout(Map args){
