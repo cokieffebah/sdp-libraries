@@ -7,13 +7,13 @@ void call(){
 
   Map layout_json = [_type:"layout"]
   layout_json.steps = []
-  List steps = layout_json.steps
+  List stepList = layout_json.steps
 
   // using for because I wanted 'continue'
   for( c in collector ){
       if( get_collector.can_collect(c.library, c.step) ){
-        steps << get_collector.layout_config(c.library, c.step)
-        steps[steps.size() - 1].name = c.step
+        stepList << get_collector.layout_config(c.library, c.step)
+        stepList.last().name = c.step
         //println "for ${c}: ${get_collector.layout_config(c.library, c.step)}"
       } else {
         println "for ${c}: null"
