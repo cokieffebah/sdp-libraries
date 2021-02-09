@@ -21,7 +21,7 @@ void call(){
           if( layout_config.threshold ){}
           else{ layout_config.threshold = 1 }
 
-          
+
         }
        
       } else {
@@ -29,14 +29,17 @@ void call(){
       }
   }
 
-  node{
-    unstash 'workspace'
+  intotot_wrap{
     writeJSON( json: layout_json, file: "layout.json", pretty:4)
     writeFile( file:"create_layout.py", text: resource("create_layout.py"))
-    stash 'workspace'
   }
 }
 
-void create_layout(Map args){
-
+void intotot_wrap(body){
+    String workspace = config.workspace ?: 'workspace'
+    docker.image(config.inside_image).inside {
+        unstash workspace
+        body()
+        stash workspace
+    }
 }
