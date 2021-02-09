@@ -6,14 +6,15 @@ void call(){
   println "pipelineConfig.intotoCollector: ${collector}"
 
   Map layout_json = [_type:"layout"]
-  List steps = layout_json.steps = []
+  layout_json.steps = []
+  List steps = layout_json.steps
 
   // using for because I wanted 'continue'
   for( c in collector ){
       if( get_collector.can_collect(c.library, c.step) ){
         steps << get_collector.layout_config(c.library, c.step)
         steps[steps.size() - 1].name = c.step
-        println "for ${c}: ${get_collector.layout_config(c.library, c.step)}"
+        //println "for ${c}: ${get_collector.layout_config(c.library, c.step)}"
       } else {
         println "for ${c}: null"
       }
