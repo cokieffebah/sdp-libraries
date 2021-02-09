@@ -17,6 +17,11 @@ void call(){
         if( layout_config ){
           stepList << layout_config
           stepList.last().name = c.step
+
+          if( layout_config.threshold ){}
+          else{ layout_config.threshold = 1 }
+
+          
         }
        
       } else {

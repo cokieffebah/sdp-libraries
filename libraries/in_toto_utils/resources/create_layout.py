@@ -4,17 +4,18 @@ from in_toto.models.metadata import Metablock
 import json
 
 def main():
-  with open('../jte/in-toto.json') as f:
+  with open('layout.json') as f:
     read_data = f.read()
     print('in-toto.json: ' + read_data)
     config_json = json.loads(read_data)
+    create_layout(config_json)
     print('create_layout.main')
 
 
 def create_layout(config_json):  
   layout = Layout.read(config_json)  
   metadata = Metablock(signed=layout)
-  metadata.sign(key_alice)
+  #metadata.sign(key_alice)
   metadata.dump("the.layout")
   print('created the.layout')
 
