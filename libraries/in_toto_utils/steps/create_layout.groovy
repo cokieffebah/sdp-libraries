@@ -2,7 +2,7 @@ package libraries.in_toto_utils
 
 @CleanUp
 void call(){
-  List collector = get_collector()
+  List collector = get_collector.get_collector()
   println "pipelineConfig.intotoCollector: ${collector}"
 
   Map layout_json = [_type:"layout"]
