@@ -41,3 +41,9 @@ void intoto_wrap(body){
         stash workspace
     }
 }
+
+void generate_functionary_keys(){
+    String functionary_path = config.functionary.path
+    if( config.functionary.generate )
+        sh("ls ${functionary_path} || in-toto-keygen -t rsa -b 2048 ${functionary_path}")
+}

@@ -4,7 +4,7 @@ void call(String step, body = {}){
     String workspace = config.workspace ?: 'workspace'
     docker.image(config.inside_image).inside {
         unstash workspace
-        generate_functionary_keys()
+        get_collector.generate_functionary_keys()
         record_start( step )
         body()
         record_stop( step )
@@ -12,11 +12,7 @@ void call(String step, body = {}){
     }
 }
 
-void generate_functionary_keys(){
-    String functionary_path = config.functionary.path
-    if( config.functionary.generate )
-        sh("ls ${functionary_path} || in-toto-keygen -t rsa -b 2048 ${functionary_path}")
-}
+
 
 void record_start(String step){
     def stepWrapper = getBinding().getStep(step)
