@@ -4,7 +4,7 @@ package libraries.in_toto_utils
 void call(){
   List collector = intoto_utils.get_collector()
   println "pipelineConfig.intotoCollector: ${collector}"
-  String functionary_path = intoto_utils.get_functionary_path()
+  String functionary_path = config.functionary.path
 
   Map layout_json = [_type:"layout"]
   layout_json.steps = []
