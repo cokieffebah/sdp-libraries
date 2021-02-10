@@ -1,6 +1,10 @@
 package libraries.in_toto_utils
 
 List call(){
+    return get_collector()
+}
+
+List get_collector(){
     String queue_name = config.collector?.queue_name ?: "intotoCollector"
 
     if( null == pipelineConfig[queue_name] ){
