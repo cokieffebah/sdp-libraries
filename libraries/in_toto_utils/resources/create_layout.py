@@ -6,16 +6,16 @@ import argparse
 
 def main():
   parser = argparse.ArgumentParser()
-  parser.add_argument("-f", "--funcpath", type=str, default=None, help="No prompt.",
-      action="store_true")
+  parser.add_argument("-f", "--funcpath", type=str, default=None, 
+      help="the path to functionary key")
 
-  parser.add_argument("signerpath", type=str, help="No prompt.",
-      action="store_true")    
+  parser.add_argument("signerpath", type=str,
+   help="the path to the signer key")    
 
   args = parser.parse_args()    
   signer_path = args.signerpath
   func_path = signer_path + ".pub"
-  
+
   if args.funcpath:
     func_path = args.funcpath
 
