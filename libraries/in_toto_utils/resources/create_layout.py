@@ -15,7 +15,8 @@ def main():
   args = parser.parse_args()    
   signer_path = args.signerpath
   func_path = signer_path + ".pub"
-  if( args.funcpath )
+  
+  if args.funcpath:
     func_path = args.funcpath
 
   with open('layout.json') as f:
