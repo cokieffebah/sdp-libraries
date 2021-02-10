@@ -6,19 +6,23 @@ import argparse
 
 def main():
   parser = argparse.ArgumentParser()
-  parser.add_argument("-f", "--funcpath", help="No prompt.",
+  parser.add_argument("-f", "--funcpath", type=str, default=None, help="No prompt.",
       action="store_true")
 
-  parser.add_argument("-s", "--signerpath", help="No prompt.",
+  parser.add_argument("signerpath", type=str, help="No prompt.",
       action="store_true")    
 
   args = parser.parse_args()    
+  signer_path = args.signerpath
+  func_path = signer_path + ".pub"
+  if( args.funcpath )
+    func_path = args.funcpath
 
   with open('layout.json') as f:
     read_data = f.read()
     print('in-toto.json: ' + read_data)
     config_json = json.loads(read_data)
-    create_layout(config_json, args.signerpath, args.funcpath)
+    create_layout(config_json, signerpath, funcpath)
     print('create_layout.main')
 
 
