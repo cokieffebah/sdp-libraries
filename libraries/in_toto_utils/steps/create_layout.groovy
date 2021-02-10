@@ -4,6 +4,7 @@ package libraries.in_toto_utils
 void call(){
   List collector = intoto_utils.get_collector()
   println "pipelineConfig.intotoCollector: ${collector}"
+  String functionary_path = intoto_utils.get_functionary_path()
 
   Map layout_json = [_type:"layout"]
   layout_json.steps = []
@@ -32,6 +33,7 @@ void call(){
   intoto_utils.intoto_wrap{
     writeJSON( json: layout_json, file: "layout.json", pretty:4)
     writeFile( file:"create_layout.py", text: resource("create_layout.py"))
+    sh("python create_layout -f ${functionary_path}.pub -s ${functionary_path}")
   }
 
 }

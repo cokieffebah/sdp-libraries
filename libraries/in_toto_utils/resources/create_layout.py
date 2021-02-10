@@ -6,21 +6,27 @@ import argparse
 
 def main():
   parser = argparse.ArgumentParser()
-  parser.add_argument("-k", "--key-path", help="No prompt.",
+  parser.add_argument("-f", "--funcpath", help="No prompt.",
       action="store_true")
+
+  parser.add_argument("-s", "--signerpath", help="No prompt.",
+      action="store_true")    
+
+  args = parser.parse_args()    
 
   with open('layout.json') as f:
     read_data = f.read()
     print('in-toto.json: ' + read_data)
     config_json = json.loads(read_data)
-    create_layout(config_json)
+    create_layout(config_json, args.signerpath, args.funcpath)
     print('create_layout.main')
 
 
-def create_layout(config_json):  
+def create_layout(config_json, signer_path):  
   layout = Layout.read(config_json)  
   metadata = Metablock(signed=layout)
-  #metadata.sign(key_alice)
+  signer_key = interface.import_rsa_privatekey_from_file(signer_path)
+  metadata.sign(signer_key)
   metadata.dump("the.layout")
   print('created the.layout')
 
