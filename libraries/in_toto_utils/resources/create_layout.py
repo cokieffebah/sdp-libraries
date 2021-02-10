@@ -2,8 +2,13 @@ from securesystemslib import interface
 from in_toto.models.layout import Layout
 from in_toto.models.metadata import Metablock
 import json
+import argparse
 
 def main():
+  parser = argparse.ArgumentParser()
+  parser.add_argument("-k", "--key-path", help="No prompt.",
+      action="store_true")
+
   with open('layout.json') as f:
     read_data = f.read()
     print('in-toto.json: ' + read_data)
