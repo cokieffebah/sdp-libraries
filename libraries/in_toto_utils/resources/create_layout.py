@@ -23,7 +23,7 @@ def main():
     read_data = f.read()
     print('in-toto.json: ' + read_data)
     config_json = json.loads(read_data)
-    create_layout(config_json, signerpath, funcpath)
+    create_layout(config_json, signer_path, funfunc_pathcpath)
     print('create_layout.main')
 
 
