@@ -2,7 +2,7 @@ package libraries.in_toto_utils
 
 @CleanUp
 void call(){
-  List collector = get_collector.get_collector()
+  List collector = intoto_utils.get_collector()
   println "pipelineConfig.intotoCollector: ${collector}"
 
   Map layout_json = [_type:"layout"]
@@ -11,8 +11,8 @@ void call(){
 
   // using for because I wanted 'continue'
   for( c in collector ){
-      if( get_collector.can_collect(c.library, c.step) ){
-        def layout_config = get_collector.layout_config(c.library, c.step)
+      if( intoto_utils.can_collect(c.library, c.step) ){
+        def layout_config = intoto_utils.layout_config(c.library, c.step)
         println "for ${c}: ${layout_config}"
         if( layout_config ){
           stepList << layout_config
@@ -29,7 +29,7 @@ void call(){
       }
   }
 
-  get_collector.intoto_wrap{
+  intoto_utils.intoto_wrap{
     writeJSON( json: layout_json, file: "layout.json", pretty:4)
     writeFile( file:"create_layout.py", text: resource("create_layout.py"))
   }
