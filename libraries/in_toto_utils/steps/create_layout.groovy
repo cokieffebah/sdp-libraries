@@ -33,7 +33,7 @@ void call(){
   intoto_utils.intoto_wrap{
     writeJSON( json: layout_json, file: "layout.json", pretty:4)
     writeFile( file:"create_layout.py", text: resource("create_layout.py"))
-    sh("python create_layout.py --funcpath ${functionary_path}.pub --signerpath ${functionary_path}")
+    sh("python create_layout.py ${functionary_path}")
   }
 
 }
