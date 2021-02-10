@@ -32,3 +32,12 @@ Map record_config( String lib, String step ){
 Map layout_config( String lib, String step ){
     return step_config( lib, step )?.layout 
 }
+
+void intoto_wrap(body){
+    String workspace = config.workspace ?: 'workspace'
+    docker.image(config.inside_image).inside {
+        unstash workspace
+        body()
+        stash workspace
+    }
+}
