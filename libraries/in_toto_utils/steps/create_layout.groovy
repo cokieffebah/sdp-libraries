@@ -34,6 +34,8 @@ void call(){
 
   intoto_utils.intoto_wrap{
     dir("final_product"){
+      // copy metadata
+      sh("cp ../${signer_path} ../${config.functionary.path} ../*.pub ../*.*.link .")
       writeJSON( json: layout_json, file: "layout.json", pretty:4)
       writeFile( file:"create_layout.py", text: resource("create_layout.py"))
       sh("python create_layout.py ${signer_path}")
