@@ -42,7 +42,7 @@ void call(){
       writeJSON( json: layout_json, file: "layout.json", pretty:4)
       writeFile( file:"create_layout.py", text: resource("create_layout.py"))
       sh("python create_layout.py ${signer_path}")
-      sh("rm create_layout.py")
+      sh("rm create_layout.py layout.json")
       sh("in-toto-verify --verbose --layout the.layout --layout-key func.pub")
     }
   }
