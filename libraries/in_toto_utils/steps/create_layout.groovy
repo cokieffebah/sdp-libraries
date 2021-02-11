@@ -33,9 +33,12 @@ void call(){
   }
 
   intoto_utils.intoto_wrap{
-    writeJSON( json: layout_json, file: "layout.json", pretty:4)
-    writeFile( file:"create_layout.py", text: resource("create_layout.py"))
-    sh("python create_layout.py ${signer_path}")
+    dir("final_product"){
+      writeJSON( json: layout_json, file: "layout.json", pretty:4)
+      writeFile( file:"create_layout.py", text: resource("create_layout.py"))
+      sh("python create_layout.py ${signer_path}")
+      sh("in-toto-verify --verbose --layout the.layout --layout-key alice.pub")
+    }
   }
 
 }
