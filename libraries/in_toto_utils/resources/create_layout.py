@@ -28,10 +28,10 @@ def main():
 
 
 def create_layout(config_json, signer_path, func_path): 
-  config_json.keys = {} 
+  config_json["keys"] = {} 
   for key_path in config_json.key_paths:
     key_data = interface.import_rsa_publickey_from_file(key_path)
-    config_json.keys[key_data["keyid"]]= key_data
+    config_json.["keys"][key_data["keyid"]]= key_data
 
   layout = Layout.read(config_json)  
   metadata = Metablock(signed=layout)
