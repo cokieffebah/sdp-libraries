@@ -37,6 +37,10 @@ Map step_layout_config( String lib, String step ){
     return step_config( lib, step )?.layout 
 }
 
+Map layout_config(){
+    return config.layout ?: [:]
+}
+
 Map inspect_config(){
     return config.layout?.inspect ?: [:] 
 }

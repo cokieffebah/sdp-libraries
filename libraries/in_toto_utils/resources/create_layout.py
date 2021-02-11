@@ -27,9 +27,16 @@ def main():
     print('create_layout.main')
 
 
-def create_layout(config_json, signer_path, func_path):  
+def create_layout(config_json, signer_path, func_path): 
+  config_json.keys = {} 
+  for key_path in config_json.key_paths
+    key_data = interface.import_rsa_publickey_from_file(key_path)
+    config_json.keys[key_data["keyid"]]= key_data
+
   layout = Layout.read(config_json)  
   metadata = Metablock(signed=layout)
+
+  for key in config_json.keys
   signer_key = interface.import_rsa_privatekey_from_file(signer_path)
   metadata.sign(signer_key)
   metadata.dump("the.layout")
