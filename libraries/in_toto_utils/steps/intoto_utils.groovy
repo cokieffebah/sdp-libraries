@@ -37,8 +37,8 @@ Map layout_config( String lib, String step ){
     return step_config( lib, step )?.layout 
 }
 
-Map inspect_config( String lib, String step ){
-    return config.layout.inspect ?: [:] 
+Map inspect_config(){
+    return config.layout?.inspect ?: [:] 
 }
 
 void intoto_wrap(body){
