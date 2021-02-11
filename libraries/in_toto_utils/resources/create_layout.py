@@ -35,7 +35,7 @@ def create_layout(config_json, signer_path, func_path):
 
   # set the pubKey of each step to the functionary
   for step in config_json["steps"]:
-    config_json["steps"]["pubKeys"] = [func_key_data["keyid"]]
+    step["pubKeys"] = [func_key_data["keyid"]]
 
   layout = Layout.read(config_json)  
   metadata = Metablock(signed=layout)
