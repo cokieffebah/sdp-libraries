@@ -4,10 +4,10 @@ package libraries.in_toto_utils
 void call(){
   List collector = intoto_utils.get_collector()
   println "pipelineConfig.intotoCollector: ${collector}"
-  String functionary_path = config.functionary.path
+  String signer_path = config.layout.signer_path
 
   Map layout_json = [_type:"layout"]
-  layout_json.key_paths = config.layout?.key_paths
+  layout_json.key_paths = [config.functionary.path + ".pub"]
   layout_json.inspect = intoto_utils.inspect_config()
   layout_json.steps = []
   List stepList = layout_json.steps
@@ -35,7 +35,7 @@ void call(){
   intoto_utils.intoto_wrap{
     writeJSON( json: layout_json, file: "layout.json", pretty:4)
     writeFile( file:"create_layout.py", text: resource("create_layout.py"))
-    sh("python create_layout.py ${functionary_path}")
+    sh("python create_layout.py ${signer_path}")
   }
 
 }

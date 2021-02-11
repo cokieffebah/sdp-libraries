@@ -29,9 +29,13 @@ def main():
 
 def create_layout(config_json, signer_path, func_path): 
   config_json["keys"] = {} 
-  for key_path in config_json["key_paths"]:
-    key_data = interface.import_rsa_publickey_from_file(key_path)
-    config_json["keys"][key_data["keyid"]]= key_data
+
+  func_key_data = interface.import_rsa_publickey_from_file(func_path)
+  config_json["keys"][func_key_data["keyid"]]= func_key_data
+
+  # set the pubKey of each step to the functionary
+  for step in config_json["steps"]:
+    config_json["steps"]["pubKeys"] = [func_key_data["keyid"]]
 
   layout = Layout.read(config_json)  
   metadata = Metablock(signed=layout)
