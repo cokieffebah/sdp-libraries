@@ -7,7 +7,7 @@ void call(){
   String functionary_path = config.functionary.path
 
   Map layout_json = [_type:"layout"]
-  layout_json.inspect = []
+  layout_json.inspect = inspect_config()
   layout_json.steps = []
   List stepList = layout_json.steps
 
