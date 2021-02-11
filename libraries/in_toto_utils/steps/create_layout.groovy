@@ -36,6 +36,9 @@ void call(){
     dir("final_product"){
       // copy metadata
       sh("cp ../${signer_path} ../${config.functionary.path} ../*.pub ../*.*.link .")
+      
+      // copy product
+      sh("cp ../demo-project.tar.gz .")
       writeJSON( json: layout_json, file: "layout.json", pretty:4)
       writeFile( file:"create_layout.py", text: resource("create_layout.py"))
       sh("python create_layout.py ${signer_path}")
