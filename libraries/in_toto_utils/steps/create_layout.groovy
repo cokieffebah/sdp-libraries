@@ -14,7 +14,7 @@ void call(){
   // using for because I wanted 'continue'
   for( c in collector ){
       if( intoto_utils.can_collect(c.library, c.step) ){
-        def layout_config = intoto_utils.layout_config(c.library, c.step)
+        def layout_config = intoto_utils.step_layout_config(c.library, c.step)
         println "for ${c}: ${layout_config}"
         if( layout_config ){
           stepList << layout_config
