@@ -13,7 +13,7 @@ void call(){
   List stepList = layout_json.steps
 
   // using for because I wanted 'continue'
-  for( c in collector ){
+  collector.each { c ->
       if( intoto_utils.can_collect(c.library, c.step) ){
         def layout_config = intoto_utils.step_layout_config(c.library, c.step)
         println "for ${c}: ${layout_config}"
@@ -43,7 +43,7 @@ void call(){
       writeFile( file:"create_layout.py", text: resource("create_layout.py"))
       sh("python create_layout.py ${signer_path}")
       sh("rm create_layout.py layout.json")
-      sh("in-toto-verify --verbose --layout the.layout --layout-key func.pub")
+      sh("in-toto-verify --verbose --layout the.layout --layout-key ${signer_path}.pub")
     }
   }
 
