@@ -47,8 +47,8 @@ void call(){
     }
   }
 
-  dir("..")
   intoto_utils.intoto_wrap{
+    dir("..")
     dir("final_product"){
       // tamper with scan.log
       sh("echo 'extra line' > scan.log")
