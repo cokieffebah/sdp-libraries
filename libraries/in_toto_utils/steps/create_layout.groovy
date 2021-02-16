@@ -5,6 +5,8 @@ void call(){
   List collector = intoto_utils.get_collector()
   println "pipelineConfig.intotoCollector: ${collector}"
   String signer_path = config.layout.signer_path
+  String input_json = config.layout.input_json ?: "layout.json"
+  String layout_file = config.layout.output_file ?: "the.layout"
 
   Map layout_json = [_type:"layout"]
   layout_json.key_paths = [config.functionary.path + ".pub"]
@@ -12,7 +14,6 @@ void call(){
   layout_json.steps = []
   List stepList = layout_json.steps
 
-  // using for because I wanted 'continue'
   collector.each { c ->
       if( intoto_utils.can_collect(c.library, c.step) ){
         def layout_config = intoto_utils.step_layout_config(c.library, c.step)
@@ -23,7 +24,6 @@ void call(){
 
           if( layout_config.threshold ){}
           else{ layout_config.threshold = 1 }
-
 
         }
        
@@ -39,13 +39,17 @@ void call(){
       
       // copy product
       sh("cp ../demo-project.tar.gz .")
-      writeJSON( json: layout_json, file: "layout.json", pretty:4)
+      writeJSON( json: layout_json, file: input_json, pretty:4)
       writeFile( file:"create_layout.py", text: resource("create_layout.py"))
-      sh("python create_layout.py ${signer_path}")
-      sh("rm create_layout.py layout.json")
-      sh("in-toto-verify --verbose --layout the.layout --layout-key ${signer_path}.pub")
+      sh("python create_layout.py --output ${layout_file} ${signer_path}")
+      sh("rm create_layout.py ${input_json}")
+      sh("in-toto-verify --verbose --layout ${layout_file} --layout-key ${signer_path}.pub")
     }
   }
+
+}
+
+void create_final_product(){
 
 }
 
