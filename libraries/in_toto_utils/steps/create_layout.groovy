@@ -39,11 +39,22 @@ void call(){
       
       // copy product
       sh("cp ../demo-project.tar.gz .")
-      writeJSON( json: layout_json, file: input_json, pretty:4)
+      writeJSON( json: layout_json, file: input_json, pretty:3)
       writeFile( file:"create_layout.py", text: resource("create_layout.py"))
       sh("python create_layout.py --output ${layout_file} ${signer_path}")
       sh("rm create_layout.py ${input_json}")
       sh("in-toto-verify --verbose --layout ${layout_file} --layout-key ${signer_path}.pub")
+    }
+  }
+
+  dir("..")
+  intoto_utils.intoto_wrap{
+    dir("final_product"){
+      // tamper with scan.log
+      sh("echo 'extra line' > scan.log")
+      
+      def status = sh(returnStatus: true, script: "in-toto-verify --verbose --layout ${layout_file} --layout-key ${signer_path}.pub")
+      println "in-toto-verify.status after tamper: ${status}"
     }
   }
 
