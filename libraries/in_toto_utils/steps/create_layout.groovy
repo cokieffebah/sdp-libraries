@@ -52,6 +52,9 @@ void call(){
     dir("final_product"){
       // tamper with scan.log
       sh("echo 'extra line' > scan.log")
+
+      // failed on already untarred demo-project/vcs.log ?
+      sh("rm -rf demo-project")
       
       def status = sh(returnStatus: true, script: "in-toto-verify --verbose --layout ${layout_file} --layout-key ${signer_path}.pub")
       println "in-toto-verify.status after tamper: ${status}"
