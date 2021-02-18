@@ -42,6 +42,7 @@ void call(){
       writeJSON( json: layout_json, file: input_json, pretty:3)
       writeFile( file:"create_layout.py", text: resource("create_layout.py"))
       sh("python create_layout.py --output ${layout_file} ${signer_path}")
+      archiveArtifacts(artifacts: "${input_json}, ${layout_file}")
       sh("rm create_layout.py ${input_json}")
       sh("in-toto-verify --verbose --layout ${layout_file} --layout-key ${signer_path}.pub")
     }

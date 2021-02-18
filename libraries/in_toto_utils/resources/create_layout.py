@@ -27,7 +27,7 @@ def main():
 
   with open(args.inputjson) as f:
     read_data = f.read()
-    print('in-toto.json: ' + read_data)
+    print('in-toto.json: ' + args.inputjson)
     config_json = json.loads(read_data)
     create_layout(config_json, signer_path, func_path, args.output)
     print('create_layout.main')
