@@ -18,7 +18,7 @@ void image_wrap_record(String step, body){
         intoto_utils.generate_functionary_keys()
         intoto_record.record_start( step )
         body()
-        intoto_record.record_start( step )
+        intoto_record.record_stop( step )
         stash workspace
     }
 }
