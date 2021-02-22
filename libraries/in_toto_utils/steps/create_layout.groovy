@@ -44,10 +44,13 @@ void call(){
       sh("python create_layout.py --output ${layout_file} ${signer_path}")
       archiveArtifacts(artifacts: "${input_json}, ${layout_file}")
       sh("rm create_layout.py ${input_json}")
-      sh("in-toto-verify --verbose --layout ${layout_file} --layout-key ${signer_path}.pub")
+      def status = sh(returnStatus: true, script: "in-toto-verify --verbose --layout ${layout_file} --layout-key ${signer_path}.pub")
+      println ""
+      println "completed in-toto-verify.status: ${status}"
     }
   }
-
+  println ""
+  println "tampering with scan.log and running in-toto-verify"
   intoto_utils.intoto_wrap{
     
     dir("final_product"){
