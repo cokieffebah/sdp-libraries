@@ -1,7 +1,11 @@
 package libraries.in_toto_utils
 
-@CleanUp
+@CleanUp({ config.auto_generate_layout })
 void call(){
+  create_layout()
+}
+
+void create_layout(){
   List collector = intoto_utils.get_collector()
   println "pipelineConfig.intotoCollector: ${collector}"
   String signer_path = config.layout.signer_path
@@ -24,7 +28,6 @@ void call(){
 
           if( layout_config.threshold ){}
           else{ layout_config.threshold = 1 }
-
         }
        
       } else {
@@ -45,14 +48,16 @@ void call(){
       sh("rm create_layout.py ${input_json}")
   }
 
-  println ""
-  println "tampering with scan.log and running in-toto-verify"
-  verify_layout("${signer_path}.pub", layout_file, "final_product"){
-      // tamper with scan.log
-      sh("echo 'extra line' > scan.log")
+  if( intoto_utils.layout_config().show_tamper ){
+    println ""
+    println "tampering with scan.log and running in-toto-verify"
+    verify_layout("${signer_path}.pub", layout_file, "final_product"){
+        // tamper with scan.log
+        sh("echo 'extra line' > scan.log")
 
-      // failed on already untarred demo-project/vcs.log ?
-      sh("rm -rf demo-project")
+        // failed on already untarred demo-project/vcs.log ?
+        sh("rm -rf demo-project")
+    }
   }
 
 }
