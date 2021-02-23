@@ -1,6 +1,6 @@
 package libraries.in_toto_utils
 
-@CleanUp({ config.auto_generate_layout })
+@CleanUp({ config.layout.auto_generate_layout })
 void call(){
   create_layout()
 }
