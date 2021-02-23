@@ -44,21 +44,15 @@ void call(){
       archiveArtifacts(artifacts: "${input_json}, ${layout_file}")
       sh("rm create_layout.py ${input_json}")
   }
-  
+
   println ""
   println "tampering with scan.log and running in-toto-verify"
-  intoto_utils.intoto_wrap{
-    
-    dir("final_product"){
+  verify_layout("${signer_path}.pub", layout_file, "final_product"){
       // tamper with scan.log
       sh("echo 'extra line' > scan.log")
 
       // failed on already untarred demo-project/vcs.log ?
       sh("rm -rf demo-project")
-      
-      def status = sh(returnStatus: true, script: "in-toto-verify --verbose --layout ${layout_file} --layout-key ${signer_path}.pub")
-      println "in-toto-verify.status after tamper: ${status}"
-    }
   }
 
 }
