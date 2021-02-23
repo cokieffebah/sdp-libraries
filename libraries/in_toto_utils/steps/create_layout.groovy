@@ -31,9 +31,8 @@ void call(){
         println "for ${c}: null"
       }
   }
-
-  intoto_utils.intoto_wrap{
-    dir("final_product"){
+ 
+  verify_layout("${signer_path}.pub", layout_file, "final_product"){ 
       // copy metadata
       sh("cp ../${signer_path} ../${config.functionary.path} ../*.pub ../*.*.link .")
       
@@ -44,11 +43,8 @@ void call(){
       sh("python create_layout.py --output ${layout_file} ${signer_path}")
       archiveArtifacts(artifacts: "${input_json}, ${layout_file}")
       sh("rm create_layout.py ${input_json}")
-      def status = sh(returnStatus: true, script: "in-toto-verify --verbose --layout ${layout_file} --layout-key ${signer_path}.pub")
-      println ""
-      println "completed in-toto-verify.status: ${status}"
-    }
   }
+  
   println ""
   println "tampering with scan.log and running in-toto-verify"
   intoto_utils.intoto_wrap{
@@ -67,7 +63,20 @@ void call(){
 
 }
 
-void create_final_product(){
+void verify_layout(String layout_key_path = null, String layout_file = null, String final_dir = null, body){
+  
+  layout_key_path = layout_key_path ?: config.verify?.layout_key_path
+  layout_file = layout_file ?: config.verify?.output_file
+  final_dir = final_dir ?: config.verify?.final_dir
+
+  intoto_utils.intoto_wrap{
+    dir(final_dir){
+      body()
+      def status = sh(returnStatus: true, script: "in-toto-verify --verbose --layout ${layout_file} --layout-key ${layout_key_path}")
+      println ""
+      println "completed in-toto-verify.status: ${status}"
+    }
+  }
 
 }
 
