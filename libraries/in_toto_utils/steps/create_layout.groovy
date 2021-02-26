@@ -15,6 +15,8 @@ void create_verify_layout(String layout_file = null){
   verify_layout("${signer_path}.pub", layout_file, "final_product"){ 
       // copy in-toto metadata
       sh("cp ../${layout_file} ../${signer_path} ../${config.functionary.path} ../*.pub ../*.*.link .")
+      // copy the original intoto demo product tar
+      sh("cp ../demo-project.tar.gz .")
   }
 
   if( config.auto_verify.show_tamper ){
