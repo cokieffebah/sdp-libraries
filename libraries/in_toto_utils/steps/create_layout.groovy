@@ -1,22 +1,23 @@
 package libraries.in_toto_utils
 
-@CleanUp({ config.layout.auto_generate_layout })
+@CleanUp({ config.auto_verify })
 void call(){
   create_verify_layout()
 }
 
-void create_verify_layout(){
+void create_verify_layout(String layout_file = null){
   
-  String layout_file = config.layout.output_file ?: "the.layout"
+  layout_file = layout_file ?: config.layout.output_file ?: "the.layout"
   String signer_path = config.layout.signer_path
+
   create_layout(signer_path, layout_file)
-  
+
   verify_layout("${signer_path}.pub", layout_file, "final_product"){ 
       // copy in-toto metadata
       sh("cp ../${layout_file} ../${signer_path} ../${config.functionary.path} ../*.pub ../*.*.link .")
   }
 
-  if( intoto_utils.layout_config().show_tamper ){
+  if( config.auto_verify.show_tamper ){
     println ""
     println "tampering with scan.log and running in-toto-verify"
     verify_layout("${signer_path}.pub", layout_file, "final_product"){
