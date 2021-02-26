@@ -5,14 +5,15 @@ void call(){
   create_verify_layout()
 }
 
-void create_verify_layout(String layout_file = null){
+void create_verify_layout(String layout_file = null, 
+  String final_product_dir = "final_product"){
   
   layout_file = layout_file ?: config.layout.output_file ?: "the.layout"
   String signer_path = config.layout.signer_path
 
   create_layout(signer_path, layout_file)
 
-  verify_layout("${signer_path}.pub", layout_file, "final_product"){ 
+  verify_layout("${signer_path}.pub", layout_file, final_product_dir){ 
       // copy in-toto metadata
       sh("cp ../${layout_file} ../${signer_path} ../${config.functionary.path} ../*.pub ../*.*.link .")
       // copy the original intoto demo product tar
@@ -22,7 +23,7 @@ void create_verify_layout(String layout_file = null){
   if( config.auto_verify.show_tamper ){
     println ""
     println "tampering with scan.log and running in-toto-verify"
-    verify_layout("${signer_path}.pub", layout_file, "final_product"){
+    verify_layout("${signer_path}.pub", layout_file, final_product_dir){
         // tamper with scan.log
         sh("echo 'extra line' > scan.log")
 
