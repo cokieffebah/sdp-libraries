@@ -1,6 +1,6 @@
 package libraries.in_toto_utils
 
-@CleanUp({ config.auto_verify })
+@CleanUp({ config.auto_verify != null || config.auto_verify })
 void call(){
   create_verify_layout()
 }
@@ -20,7 +20,7 @@ void create_verify_layout(String layout_file = null,
       sh("cp ../demo-project.tar.gz .")
   }
 
-  if( config.auto_verify.show_tamper ){
+  if( config.auto_verify?.show_tamper ){
     println ""
     println "tampering with scan.log and running in-toto-verify"
     verify_layout("${signer_path}.pub", layout_file, final_product_dir){
