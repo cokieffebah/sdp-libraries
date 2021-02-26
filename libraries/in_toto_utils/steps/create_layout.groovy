@@ -2,15 +2,42 @@ package libraries.in_toto_utils
 
 @CleanUp({ config.layout.auto_generate_layout })
 void call(){
-  create_layout()
+  create_verify_layout()
 }
 
-void create_layout(){
+void create_verify_layout(){
+  
+  String layout_file = config.layout.output_file ?: "the.layout"
+  String signer_path = config.layout.signer_path
+  create_layout(signer_path, layout_file)
+  
+  verify_layout("${signer_path}.pub", layout_file, "final_product"){ 
+      // copy in-toto metadata
+      sh("cp ../${layout_file} ../${signer_path} ../${config.functionary.path} ../*.pub ../*.*.link .")
+  }
+
+  if( intoto_utils.layout_config().show_tamper ){
+    println ""
+    println "tampering with scan.log and running in-toto-verify"
+    verify_layout("${signer_path}.pub", layout_file, "final_product"){
+        // tamper with scan.log
+        sh("echo 'extra line' > scan.log")
+
+        // failed on already untarred demo-project/vcs.log ?
+        sh("rm -rf demo-project")
+    }
+  }
+}
+
+void create_layout(String signer_path = null, 
+  String layout_file = null, String input_json = null){
+
   List collector = intoto_utils.get_collector()
   println "pipelineConfig.intotoCollector: ${collector}"
-  String signer_path = config.layout.signer_path
-  String input_json = config.layout.input_json ?: "layout.json"
-  String layout_file = config.layout.output_file ?: "the.layout"
+
+  signer_path = signer_path ?: config.layout.signer_path
+  input_json = input_json ?: config.layout.input_json ?: "layout.json"
+  layout_file = layout_file ?: config.layout.output_file ?: "the.layout"
 
   Map layout_json = [_type:"layout"]
   layout_json.key_paths = [config.functionary.path + ".pub"]
@@ -34,30 +61,13 @@ void create_layout(){
         println "for ${c}: null"
       }
   }
- 
-  verify_layout("${signer_path}.pub", layout_file, "final_product"){ 
-      // copy metadata
-      sh("cp ../${signer_path} ../${config.functionary.path} ../*.pub ../*.*.link .")
-      
-      // copy product
-      sh("cp ../demo-project.tar.gz .")
-      writeJSON( json: layout_json, file: input_json, pretty:3)
-      writeFile( file:"create_layout.py", text: resource("create_layout.py"))
-      sh("python create_layout.py --output ${layout_file} ${signer_path}")
-      archiveArtifacts(artifacts: "${input_json}, ${layout_file}")
-      sh("rm create_layout.py ${input_json}")
-  }
 
-  if( intoto_utils.layout_config().show_tamper ){
-    println ""
-    println "tampering with scan.log and running in-toto-verify"
-    verify_layout("${signer_path}.pub", layout_file, "final_product"){
-        // tamper with scan.log
-        sh("echo 'extra line' > scan.log")
-
-        // failed on already untarred demo-project/vcs.log ?
-        sh("rm -rf demo-project")
-    }
+  intoto_utils.intoto_wrap{
+    writeJSON( json: layout_json, file: input_json, pretty:3)
+    writeFile( file:"create_layout.py", text: resource("create_layout.py"))
+    sh("python create_layout.py --output ${layout_file} ${signer_path}")
+    archiveArtifacts(artifacts: "${input_json}, ${layout_file}")
+    sh("rm create_layout.py ${input_json}")
   }
 
 }
