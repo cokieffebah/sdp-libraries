@@ -9,9 +9,10 @@ void create_verify_layout(String layout_file = null,
   String final_product_dir = "final_product"){
   
   layout_file = layout_file ?: config.layout.output_file ?: "the.layout"
+  String input_json = config.layout.input_json ?: "layout.json"
   String signer_path = config.layout.signer_path
 
-  create_layout(signer_path, layout_file)
+  create_layout(signer_path, layout_file, input_json, true)
 
   verify_layout("${signer_path}.pub", layout_file, final_product_dir){ 
       // copy in-toto metadata
@@ -34,7 +35,8 @@ void create_verify_layout(String layout_file = null,
 }
 
 void create_layout(String signer_path = null, 
-  String layout_file = null, String input_json = null){
+  String layout_file = null, String input_json = null,
+  boolean archive_output = false){
 
   List collector = intoto_utils.get_collector()
   println "pipelineConfig.intotoCollector: ${collector}"
@@ -70,7 +72,9 @@ void create_layout(String signer_path = null,
     writeJSON( json: layout_json, file: input_json, pretty:3)
     writeFile( file:"create_layout.py", text: resource("create_layout.py"))
     sh("python create_layout.py --output ${layout_file} ${signer_path}")
-    archiveArtifacts(artifacts: "${input_json}, ${layout_file}")
+    if( archive_output ){
+      archiveArtifacts(artifacts: "${input_json}, ${layout_file}")
+    }
     sh("rm create_layout.py ${input_json}")
   }
 
