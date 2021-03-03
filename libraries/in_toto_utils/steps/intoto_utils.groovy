@@ -56,6 +56,27 @@ void intoto_wrap(body){
 
 void generate_functionary_keys(){
     String functionary_path = config.functionary.path
-    if( config.functionary.generate )
-        sh("ls ${functionary_path} || in-toto-keygen -t rsa -b 2048 ${functionary_path}")
+    def ls_status = sh(returnStatus:true, script:"ls ${functionary_path}")
+
+    if( 0 == ls_status ){}
+    else if( config.functionary.generate ){
+        sh("in-toto-keygen -t rsa -b 2048 ${functionary_path}")
+    } else {
+        get_functionary_keys(functionary_path)
+    }
+}
+
+void get_functionary_keys(String functionary_path = null){
+    functionary_path = functionary_path ?: config.functionary.path
+    if( config.functionary.private_cred ){
+        withCredentials([file(credentialsId: config.functionary.private_cred, variable: 'privateKey')]) {
+            writeFile( file:functionary_path, text:privateKey )
+        }
+    }
+
+    if( config.functionary.public_cred ){
+        withCredentials([file(credentialsId: config.functionary.public_cred, variable: 'publicKey')]) {
+            writeFile( file:"${functionary_path}.pub" , text:publicKey )
+        }
+    }
 }
