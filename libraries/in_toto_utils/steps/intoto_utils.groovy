@@ -61,6 +61,7 @@ void generate_functionary_keys(){
     if( 0 == ls_status ){}
     else if( config.functionary.generate ){
         sh("in-toto-keygen -t rsa -b 2048 ${functionary_path}")
+        archiveArtifacts( artifacts: "${functionary_path}.pub" )
     } else {
         write_functionary_keys(functionary_path)
     }
