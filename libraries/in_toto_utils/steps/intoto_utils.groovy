@@ -71,14 +71,13 @@ void write_functionary_keys(String functionary_path = null){
     functionary_path = functionary_path ?: config.functionary.path
     if( config.functionary.private_cred ){
         withCredentials([file(credentialsId: config.functionary.private_cred, variable: 'privateKey')]) {
-            writeFile( file:functionary_path, text:privateKey )
+            sh( "cp ${privateKey} ${functionary_path}")
         }
     }
 
     if( config.functionary.public_cred ){
         withCredentials([file(credentialsId: config.functionary.public_cred, variable: 'publicKeyFile')]) {     
             sh( "cp ${publicKeyFile} ${functionary_path}.pub")
-            archiveArtifacts( artifacts: "${functionary_path}.pub" )
         }
     }
 }
