@@ -1,6 +1,6 @@
 package libraries.in_toto_utils
 
-@CleanUp({ config.auto_verify != null || config.auto_verify })
+@CleanUp({ config.auto_verify != null && config.auto_verify != false })
 void call(){
   create_verify_layout()
 }
