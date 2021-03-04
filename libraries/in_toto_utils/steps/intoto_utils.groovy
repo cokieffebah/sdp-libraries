@@ -61,6 +61,7 @@ void generate_functionary_keys(){
     if( 0 == ls_status ){}
     else if( config.functionary.generate ){
         sh("in-toto-keygen -t rsa -b 2048 ${functionary_path}")
+        sh( script:"ls -l ${functionary_path}")
         archiveArtifacts( artifacts: "${functionary_path}.pub" )
     } else {
         write_functionary_keys(functionary_path)
@@ -77,7 +78,8 @@ void write_functionary_keys(String functionary_path = null){
 
     if( config.functionary.public_cred ){
         withCredentials([file(credentialsId: config.functionary.public_cred, variable: 'publicKeyFile')]) {     
-            sh( "cp ${publicKeyFile} ${functionary_path}.pub")
+            sh( "cp ${publicKeyFile} ${functionary_path}.pub; ")
+            sh( script:"ls -l ${functionary_path}.pub ${publicKeyFile}")
         }
     }
 }
