@@ -68,8 +68,7 @@ void from_collected_steps(String signer_path = null,
       }
   }
 
-  run_closure = run_closure ?: intoto_utils.intoto_wrap
-  run_closure{
+  def block_run = {
     writeJSON( json: layout_json, file: input_json, pretty:3)
     writeFile( file:"create_layout.py", text: resource("create_layout.py"))
     sh("python create_layout.py --output ${layout_file} ${signer_path}")
@@ -78,6 +77,8 @@ void from_collected_steps(String signer_path = null,
     }
     sh("rm create_layout.py ${input_json}")
   }
+
+  run_closure ? run_closure(block_run): intoto_utils.intoto_wrap(block_run)
 
 }
 
