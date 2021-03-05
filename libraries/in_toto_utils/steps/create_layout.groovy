@@ -7,7 +7,7 @@ class CreateLayout {
   boolean archive_output = false
   def run_closure = null
 
-  void do(){
+  void create(){
     jte.libraries.in_toto_utils.create_layout.from_collected_steps2(this)
   }
 }
