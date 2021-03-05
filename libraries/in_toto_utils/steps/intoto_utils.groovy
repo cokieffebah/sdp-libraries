@@ -79,7 +79,7 @@ void write_functionary_keys(String functionary_path = null){
     if( config.functionary.public_cred ){
         withCredentials([file(credentialsId: config.functionary.public_cred, variable: 'publicKeyFile')]) {     
             sh( "cp ${publicKeyFile} ${functionary_path}.pub")
-            sh( script:"ls -l ${functionary_path}.pub ${publicKeyFile}")
+            // sh( script:"ls -l ${functionary_path}.pub ${publicKeyFile}")
         }
     }
 }
