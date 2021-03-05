@@ -3,7 +3,7 @@ package libraries.in_toto_utils
 class CreateLayout {
   String signer_path = null 
   String layout_file = null
-  String input_json = null,
+  String input_json = null
   boolean archive_output = false
   def run_closure = null
 }
