@@ -4,7 +4,7 @@ void call(){}
 
 void image_wrap(body){
     String workspace = config.workspace ?: 'workspace'
-    docker.image(config.inside_image).inside {
+    docker.image(config.inside_image).inside(config.inside?.args) {
         unstash workspace
         body()
         stash workspace
