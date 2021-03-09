@@ -24,15 +24,15 @@ void run(String step, String command){
         List cmd = ["in-toto-run --verbose"]
         cmd << "--step-name ${step}"
         
-        if( args.materials ){
+        if( args?.materials ){
         cmd << "--materials ${args.materials}"
         }
 
-        if( args.products ){
+        if( args?.products ){
         cmd << "--products ${args.products}"
         }
 
-        if( args.metadata_dir ){
+        if( args?.metadata_dir ){
             cmd << "-d ${args.metadata_dir}"
         }
 
@@ -50,11 +50,12 @@ void record_start(String step){
         Map args = intoto_utils.record_config( stepWrapper.library, step)
         List cmd = ["in-toto-record start --verbose"]
         cmd << "--step-name ${step}"
-        if( args.materials ){
+
+        if( args?.materials ){
         cmd << "--materials ${args.materials}"
         }
 
-        if( args.metadata_dir ){
+        if( args?.metadata_dir ){
             cmd << "-d ${args.metadata_dir}"
         }
 
@@ -72,11 +73,12 @@ void record_stop(String step){
         Map args = intoto_utils.record_config( stepWrapper.library, step)
         List cmd = ["in-toto-record stop --verbose"]
         cmd << "--step-name ${step}"
-        if( args.products ){
+
+        if( args?.products ){
         cmd << "--products ${args.products}"
         }
         
-        if( args.metadata_dir ){
+        if( args?.metadata_dir ){
             cmd << "-d ${args.metadata_dir}"
         }
         
