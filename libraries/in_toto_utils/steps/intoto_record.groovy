@@ -40,7 +40,7 @@ void run(String step, String command){
         cmd << "-- ${command}"
         sh( script: cmd.join(" ") )
     } else {
-        echo("in-toto run: no binding step for ${step}")
+        println("in-toto run: no binding step for ${step}")
     }
 }
 
@@ -61,7 +61,7 @@ void record_start(String step){
         cmd << "--key ${config.functionary.path}"
         sh( script: cmd.join(" ") )
     } else {
-        echo("record_start: no binding step for ${step}")
+        println("record_start: no binding step for ${step}")
     }
 }
 
@@ -83,6 +83,6 @@ void record_stop(String step){
         cmd << "--key ${config.functionary.path}"
         sh( script: cmd.join(" ") )
     } else {
-        echo("record_stop: no binding step for ${step}")
+        println("record_stop: no binding step for ${step}")
     }
 }
