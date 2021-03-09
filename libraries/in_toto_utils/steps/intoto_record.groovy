@@ -17,36 +17,72 @@ void std(String step, body = {}){
     record_stop( step )
 }
 
+void run(String step, String command){
+    if( getBinding().hasStep(step) ){
+        def stepWrapper = getBinding().getStep(step)
+        Map args = intoto_utils.record_config( stepWrapper.library, step)
+        List cmd = ["in-toto-run --verbose"]
+        cmd << "--step-name ${step}"
+        
+        if( args.materials ){
+        cmd << "--materials ${args.materials}"
+        }
+
+        if( args.products ){
+        cmd << "--products ${args.products}"
+        }
+
+        if( args.metadata_dir ){
+            cmd << "-d ${args.metadata_dir}"
+        }
+
+        cmd << "--key ${config.functionary.path}"
+        cmd << "-- ${command}"
+        sh( script: cmd.join(" ") )
+    } else {
+        echo("in-toto run: no binding step for ${step}")
+    }
+}
+
 void record_start(String step){
-    def stepWrapper = getBinding().getStep(step)
-    Map args = intoto_utils.record_config( stepWrapper.library, step)
-    List cmd = ["in-toto-record start --verbose"]
-    cmd << "--step-name ${step}"
-    if( args.materials ){
-      cmd << "--materials ${args.materials}"
-    }
+    if( getBinding().hasStep(step) ){
+        def stepWrapper = getBinding().getStep(step)
+        Map args = intoto_utils.record_config( stepWrapper.library, step)
+        List cmd = ["in-toto-record start --verbose"]
+        cmd << "--step-name ${step}"
+        if( args.materials ){
+        cmd << "--materials ${args.materials}"
+        }
 
-    if( args.metadata_dir ){
-        cmd << "-d ${args.metadata_dir}"
-    }
+        if( args.metadata_dir ){
+            cmd << "-d ${args.metadata_dir}"
+        }
 
-    cmd << "--key ${config.functionary.path}"
-    sh( script: cmd.join(" ") )
+        cmd << "--key ${config.functionary.path}"
+        sh( script: cmd.join(" ") )
+    } else {
+        echo("record_start: no binding step for ${step}")
+    }
 }
 
 void record_stop(String step){
-    def stepWrapper = getBinding().getStep(step)
-    Map args = intoto_utils.record_config( stepWrapper.library, step)
-    List cmd = ["in-toto-record stop --verbose"]
-    cmd << "--step-name ${step}"
-    if( args.products ){
-      cmd << "--products ${args.products}"
-    }
+    if( getBinding().hasStep(step) ){
+        def stepWrapper = getBinding().getStep(step)
     
-    if( args.metadata_dir ){
-        cmd << "-d ${args.metadata_dir}"
+        Map args = intoto_utils.record_config( stepWrapper.library, step)
+        List cmd = ["in-toto-record stop --verbose"]
+        cmd << "--step-name ${step}"
+        if( args.products ){
+        cmd << "--products ${args.products}"
+        }
+        
+        if( args.metadata_dir ){
+            cmd << "-d ${args.metadata_dir}"
+        }
+        
+        cmd << "--key ${config.functionary.path}"
+        sh( script: cmd.join(" ") )
+    } else {
+        echo("record_stop: no binding step for ${step}")
     }
-    
-    cmd << "--key ${config.functionary.path}"
-    sh( script: cmd.join(" ") )
 }
