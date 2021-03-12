@@ -6,14 +6,14 @@ void call(){
 }
 
 void create_verify_layout(String layout_file = null, 
-  String final_product_dir = null, Boolean show_tamper = null){
+  String final_product_dir = null, Boolean show_tamper = null, List inspect_config = null){
   
   layout_file = layout_file ?: config.layout.output_file ?: "the.layout"
   final_product_dir = final_product_dir ?: "final_product"
   String input_json = config.layout.input_json ?: "layout.json"
   String signer_path = config.layout.signer_path
 
-  from_collected_steps(signer_path, layout_file, input_json, true)
+  from_collected_steps(signer_path, layout_file, input_json, true, inspect_config)
 
   verify_layout("${signer_path}.pub", layout_file, final_product_dir){ 
       // copy in-toto metadata
@@ -37,7 +37,7 @@ void create_verify_layout(String layout_file = null,
 
 void from_collected_steps(String signer_path = null, 
   String layout_file = null, String input_json = null,
-  boolean archive_output = false, def run_closure = null){
+  boolean archive_output = false, List inspect_config = null, def run_closure = null){
 
   List collector = intoto_utils.get_collector()
   println "pipelineConfig.intotoCollector: ${collector}"
@@ -48,7 +48,7 @@ void from_collected_steps(String signer_path = null,
 
   Map layout_json = [_type:"layout"]
   layout_json.key_paths = [config.functionary.path + ".pub"]
-  layout_json.inspect = intoto_utils.inspect_config()
+  layout_json.inspect = inspect_config ?: intoto_utils.inspect_config()
   layout_json.steps = []
   List stepList = layout_json.steps
 
