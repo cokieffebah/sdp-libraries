@@ -22,7 +22,7 @@ void create_verify_layout(String layout_file = null,
       sh("cp ../demo-project.tar.gz .")
   }
 
-  if( (null == show_tamper && config.auto_verify?.show_tamper) || (null != show_tamper && show_tamper) ){
+  if( show_tamper ){
     println ""
     println "tampering with scan.log and running in-toto-verify"
     verify_layout("${signer_path}.pub", layout_file, final_product_dir){
