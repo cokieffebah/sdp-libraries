@@ -6,9 +6,10 @@ void call(){
 }
 
 void create_verify_layout(String layout_file = null, 
-  String final_product_dir = "final_product"){
+  String final_product_dir = null, Boolean show_tamper = null){
   
   layout_file = layout_file ?: config.layout.output_file ?: "the.layout"
+  final_product_dir = final_product_dir ?: "final_product"
   String input_json = config.layout.input_json ?: "layout.json"
   String signer_path = config.layout.signer_path
 
@@ -21,7 +22,7 @@ void create_verify_layout(String layout_file = null,
       sh("cp ../demo-project.tar.gz .")
   }
 
-  if( config.auto_verify?.show_tamper ){
+  if( (null == show_tamper && config.auto_verify?.show_tamper) || (null != show_tamper && show_tamper) ){
     println ""
     println "tampering with scan.log and running in-toto-verify"
     verify_layout("${signer_path}.pub", layout_file, final_product_dir){
