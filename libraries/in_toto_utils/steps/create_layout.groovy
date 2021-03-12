@@ -1,5 +1,10 @@
 package libraries.in_toto_utils
 
+@CleanUp({ config.auto_verify != null && config.auto_verify != false })
+void call(){
+  create_verify_layout()
+}
+
 void create_verify_layout(String layout_file = null, 
   String final_product_dir = "final_product"){
   
