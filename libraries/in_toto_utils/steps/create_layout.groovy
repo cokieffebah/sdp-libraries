@@ -1,26 +1,5 @@
 package libraries.in_toto_utils
 
-class CreateLayout {
-  String signer_path = null 
-  String layout_file = null
-  String input_json = null
-  boolean archive_output = false
-  def run_closure = null
-
-  void create(){
-    jte.libraries.in_toto_utils.create_layout.from_collected_steps2(this)
-  }
-}
-
-@CleanUp({ config.auto_verify != null && config.auto_verify != false })
-void call(){
-  create_verify_layout()
-}
-
-CreateLayout newAction(){
-  return new CreateLayout()
-}
-
 void create_verify_layout(String layout_file = null, 
   String final_product_dir = "final_product"){
   
@@ -48,16 +27,6 @@ void create_verify_layout(String layout_file = null,
         sh("rm -rf demo-project")
     }
   }
-}
-
-void from_collected_steps1(String signer_path, 
-  String layout_file, def run_closure){
-    from_collected_steps(signer_path, layout_file, null, false, run_closure)
-}
-
-void from_collected_steps2(CreateLayout args){
-    from_collected_steps(args.signer_path, args.layout_file,
-     args.input_json, args.archive_output, args.run_closure)
 }
 
 void from_collected_steps(String signer_path = null, 
