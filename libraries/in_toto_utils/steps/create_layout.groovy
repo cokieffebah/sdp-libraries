@@ -27,7 +27,12 @@ void create_verify_layout(String layout_file = null,
     println "tampering with scan.log and running in-toto-verify"
     verify_layout("${signer_path}.pub", layout_file, final_product_dir){
         // tamper with scan.log
-        sh("echo 'extra line' > scan.log")
+        //sh("echo 'extra line' > scan.log")
+        sh("pwd")
+
+        // 
+        input("waiting")
+        // after waiting docker exec into container and modify the file
 
         // failed on already untarred demo-project/vcs.log ?
         sh("rm -rf demo-project")
