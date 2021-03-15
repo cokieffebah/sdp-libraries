@@ -87,19 +87,23 @@ void from_collected_steps(String signer_path = null,
   run_closure ? run_closure(block_run): intoto_utils.intoto_wrap(block_run)
 }
 
+void wrapped_verify_layout(String layout_key_path = null, String layout_file = null, String final_dir = null, body){
+  intoto_utils.intoto_wrap{
+    verify_layout(layout_key_path, layout_file, final_dir, body)
+  }
+}
+
 void verify_layout(String layout_key_path = null, String layout_file = null, String final_dir = null, body){
   
   layout_key_path = layout_key_path ?: config.verify?.layout_key_path
   layout_file = layout_file ?: config.verify?.output_file
   final_dir = final_dir ?: config.verify?.final_dir
 
-  intoto_utils.intoto_wrap{
-    dir(final_dir){
-      body()
-      def status = sh(returnStatus: true, script: "in-toto-verify --verbose --layout ${layout_file} --layout-key ${layout_key_path}")
-      println ""
-      println "completed in-toto-verify.status: ${status}"
-    }
+  dir(final_dir){
+    body()
+    def status = sh(returnStatus: true, script: "in-toto-verify --verbose --layout ${layout_file} --layout-key ${layout_key_path}")
+    println ""
+    println "completed in-toto-verify.status: ${status}"
   }
 
 }
