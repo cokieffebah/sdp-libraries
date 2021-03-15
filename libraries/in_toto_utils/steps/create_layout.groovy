@@ -35,7 +35,7 @@ void create_verify_layout(String layout_file = null,
         // after waiting docker exec into container and modify the file
 
         // failed on already untarred demo-project/vcs.log ?
-        sh("rm -rf demo-project")
+        // sh("rm -rf demo-project")
     }
   }
 }
