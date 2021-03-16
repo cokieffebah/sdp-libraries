@@ -49,7 +49,7 @@ void create_verify_layout(String layout_file = null,
 
 void from_collected_steps(String signer_path = null, 
   String layout_file = null, String input_json = null,
-  boolean archive_output = false, List inspect_config = null, def run_closure = null){
+  boolean archive_output = false, List inspect_config = null, def run_closure = { bod -> bod()}){
 
   List collector = intoto_utils.get_collector()
   println "pipelineConfig.intotoCollector: ${collector}"
