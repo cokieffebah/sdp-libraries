@@ -30,8 +30,15 @@ void create_verify_layout(String layout_file = null,
         //sh("echo 'extra line' > scan.log")
         sh("pwd")
 
-        // 
-        input("waiting")
+        try{
+          timeout(time: 120, unit: 'SECONDS') { 
+            input("waiting")
+          } 
+        } catch(org.jenkinsci.plugins.workflow.steps.FlowInterruptedException e){
+          println("timeouted input: `echo 'extra line' > scan.log`")
+          sh("echo 'extra line' > scan.log")
+        }
+
         // after waiting docker exec into container and modify the file
 
         // failed on already untarred demo-project/vcs.log ?
