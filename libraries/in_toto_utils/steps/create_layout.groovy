@@ -6,7 +6,7 @@ void call(){
 }
 
 void create_verify_layout(String layout_file = null, 
-  String final_product_dir = null, Boolean show_tamper = null, List inspect_config = null){
+  String final_product_dir = null, List inspect_config = null, def show_tamper = null ){
   
   layout_file = layout_file ?: config.layout.output_file ?: "the.layout"
   final_product_dir = final_product_dir ?: "final_product"
@@ -25,25 +25,7 @@ void create_verify_layout(String layout_file = null,
   if( show_tamper ){
     println ""
     println "tampering with scan.log and running in-toto-verify"
-    verify_layout("${signer_path}.pub", layout_file, final_product_dir){
-        // tamper with scan.log
-        //sh("echo 'extra line' > scan.log")
-        sh("pwd")
-
-        try{
-          timeout(time: 120, unit: 'SECONDS') { 
-            input("waiting")
-          } 
-        } catch(org.jenkinsci.plugins.workflow.steps.FlowInterruptedException e){
-          println("timeouted input: `echo 'extra line' > scan.log`")
-          sh("echo 'extra line' > scan.log")
-        }
-
-        // after waiting docker exec into container and modify the file
-
-        // failed on already untarred demo-project/vcs.log ?
-        // sh("rm -rf demo-project")
-    }
+    verify_layout("${signer_path}.pub", layout_file, final_product_dir, show_tamper)
   }
 }
 
