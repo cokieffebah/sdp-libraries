@@ -6,12 +6,7 @@ void call(){
 }
 
 void create_verify_layout(String layout_file = null, 
-  String final_product_dir = null, List inspect_config = null, def show_tamper = null, def pre_verify =  { 
-      // copy in-toto metadata
-      sh("cp ../${layout_file} ../${signer_path} ../${config.functionary.path} ../*.pub ../*.*.link .")
-      // copy the original intoto demo product tar
-      sh("cp ../demo-project.tar.gz .")
-  }){
+  String final_product_dir = null, List inspect_config = null, def show_tamper = null){
   
   layout_file = layout_file ?: config.layout.output_file ?: "the.layout"
   final_product_dir = final_product_dir ?: "final_product"
@@ -20,10 +15,16 @@ void create_verify_layout(String layout_file = null,
 
   from_collected_steps(signer_path, layout_file, input_json, true, inspect_config)
 
-  verify_layout("${signer_path}.pub", layout_file, final_product_dir, pre_verify)
+  verify_layout("${signer_path}.pub", layout_file, final_product_dir, ){ 
+      // copy in-toto metadata
+      sh("cp ../${layout_file} ../${signer_path} ../${config.functionary.path} ../*.pub ../*.*.link .")
+      // copy the original intoto demo product tar
+      sh("cp ../demo-project.tar.gz .")
+  }
 
   if( show_tamper ){
-
+    println ""
+    println "tampering with scan.log and running in-toto-verify"
     verify_layout("${signer_path}.pub", layout_file, final_product_dir, show_tamper)
   }
 }
