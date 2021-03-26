@@ -17,7 +17,7 @@ void std(String step, body = {}){
     record_stop( step )
 }
 
-void run(String step, String command){
+void run(String step, String command = null ){
     if( getBinding().hasStep(step) ){
         def stepWrapper = getBinding().getStep(step)
         Map args = intoto_utils.record_config( stepWrapper.library, step)
@@ -37,6 +37,8 @@ void run(String step, String command){
         }
 
         cmd << "--key ${config.functionary.path}"
+        command = command ?: args?.command
+        
         cmd << "-- ${command}"
         sh( script: cmd.join(" ") )
     } else {
