@@ -68,15 +68,15 @@ void generate_functionary_keys(){
     }
 }
 
-void write_functionary_keys(String functionary_path = null){
+void write_functionary_keys(String functionary_path = null, Boolean write_public = true, Boolean write_private = true){
     functionary_path = functionary_path ?: config.functionary.path
-    if( config.functionary.private_cred ){
+    if( write_private && config.functionary.private_cred ){
         withCredentials([file(credentialsId: config.functionary.private_cred, variable: 'privateKey')]) {
             sh( "cp ${privateKey} ${functionary_path}")
         }
     }
 
-    if( config.functionary.public_cred ){
+    if( write_public && config.functionary.public_cred ){
         withCredentials([file(credentialsId: config.functionary.public_cred, variable: 'publicKeyFile')]) {     
             sh( "cp ${publicKeyFile} ${functionary_path}.pub")
         }
