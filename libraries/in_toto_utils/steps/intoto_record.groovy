@@ -1,5 +1,7 @@
 package libraries.in_toto_utils
 
+import org.boozallen.plugins.jte.init.primitives
+
 void call(String step, body = {}){
     std(step, body)
 }
@@ -18,8 +20,9 @@ void std(String step, body = {}){
 }
 
 void run(String step, String command = null ){
-    if( getBinding().hasStep(step) ){
-        def stepWrapper = getBinding().getStep(step)
+    TemplatePrimitiveCollector primitiveCollector = TemplatePrimitiveCollector.current()
+    if( primitiveCollector.hasStep(step) ){
+        def stepWrapper = primitiveCollector.getStep(step)
         Map args = intoto_utils.record_config( stepWrapper.library, step)
         List cmd = ["in-toto-run --verbose"]
         cmd << "--step-name ${step}"
@@ -47,8 +50,9 @@ void run(String step, String command = null ){
 }
 
 void record_start(String step){
-    if( getBinding().hasStep(step) ){
-        def stepWrapper = getBinding().getStep(step)
+    TemplatePrimitiveCollector primitiveCollector = TemplatePrimitiveCollector.current()
+    if( primitiveCollector.hasStep(step) ){
+        def stepWrapper = primitiveCollector.getStep(step)
         Map args = intoto_utils.record_config( stepWrapper.library, step)
         List cmd = ["in-toto-record start --verbose"]
         cmd << "--step-name ${step}"
@@ -69,8 +73,9 @@ void record_start(String step){
 }
 
 void record_stop(String step){
-    if( getBinding().hasStep(step) ){
-        def stepWrapper = getBinding().getStep(step)
+    TemplatePrimitiveCollector primitiveCollector = TemplatePrimitiveCollector.current()
+    if( primitiveCollector.hasStep(step) ){
+        def stepWrapper = primitiveCollector.getStep(step)
     
         Map args = intoto_utils.record_config( stepWrapper.library, step)
         List cmd = ["in-toto-record stop --verbose"]
