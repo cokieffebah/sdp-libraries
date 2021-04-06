@@ -53,6 +53,7 @@ void record_start(String step){
     TemplatePrimitiveCollector primitiveCollector = TemplatePrimitiveCollector.current()
     if( primitiveCollector.hasStep(step) ){
         def stepWrapper = primitiveCollector.getStep(step)
+        println("record_start: found step for ${step}: with library: ${step.library}")
         Map args = intoto_utils.record_config( stepWrapper.library, step)
         List cmd = ["in-toto-record start --verbose"]
         cmd << "--step-name ${step}"
@@ -68,7 +69,7 @@ void record_start(String step){
         cmd << "--key ${config.functionary.path}"
         sh( script: cmd.join(" ") )
     } else {
-        println("record_start: no binding step for ${step}")
+        println("record_start: no collector step for ${step}")
     }
 }
 
