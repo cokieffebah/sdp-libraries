@@ -20,12 +20,9 @@ void std(String step, body = {}){
 }
 
 void run(String step, String command = null ){
-    TemplatePrimitiveCollector primitiveCollector = TemplatePrimitiveCollector.current()
-    if( primitiveCollector.hasStep(step) ){
-        def stepWrapper = primitiveCollector.getStep(step)[0]
-        String library = stepWrapper.library
-        stepWrapper = null
-        Map args = intoto_utils.record_config( library, step)
+    def stepWrapper = getStep(step) 
+    if( stepWrapper ){
+        Map args = intoto_utils.record_config( stepWrapper.library, step)
         List cmd = ["in-toto-run --verbose"]
         cmd << "--step-name ${step}"
         
@@ -52,8 +49,8 @@ void run(String step, String command = null ){
 }
 
 void record_start(String step){
-    if( TemplatePrimitiveCollector.current().hasStep(step) ){
-        def stepWrapper = TemplatePrimitiveCollector.current().getStep(step)[0]
+    def stepWrapper = getStep(step) 
+    if( stepWrapper ){
        
         String library = stepWrapper.library
         stepWrapper = null
@@ -78,11 +75,8 @@ void record_start(String step){
 }
 
 void record_stop(String step){
-    if( TemplatePrimitiveCollector.current().hasStep(step) ){
-        def stepWrapper = TemplatePrimitiveCollector.current().getStep(step)[0]
-       
-        String library = stepWrapper.library
-    
+    def stepWrapper = getStep(step) 
+    if( stepWrapper ){
         Map args = intoto_utils.record_config( stepWrapper.library, step)
         List cmd = ["in-toto-record stop --verbose"]
         cmd << "--step-name ${step}"
@@ -100,4 +94,10 @@ void record_stop(String step){
     } else {
         println("record_stop: no binding step for ${step}")
     }
+}
+
+@NonCPS
+def getStep(String stepName){
+  TemplatePrimitiveCollector primitiveCollector = TemplatePrimitiveCollector.current()
+  return primitiveCollector.hasStep(step) ? primitiveCollector.getStep(stepName).first() : null
 }
