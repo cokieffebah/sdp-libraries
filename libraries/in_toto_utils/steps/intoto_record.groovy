@@ -23,7 +23,9 @@ void run(String step, String command = null ){
     TemplatePrimitiveCollector primitiveCollector = TemplatePrimitiveCollector.current()
     if( primitiveCollector.hasStep(step) ){
         def stepWrapper = primitiveCollector.getStep(step)[0]
-        Map args = intoto_utils.record_config( stepWrapper.library, step)
+        String library = stepWrapper.library
+        stepWrapper = null
+        Map args = intoto_utils.record_config( library, step)
         List cmd = ["in-toto-run --verbose"]
         cmd << "--step-name ${step}"
         
@@ -53,7 +55,11 @@ void record_start(String step){
     TemplatePrimitiveCollector primitiveCollector = TemplatePrimitiveCollector.current()
     if( primitiveCollector.hasStep(step) ){
         def stepWrapper = primitiveCollector.getStep(step)[0]
-        Map args = intoto_utils.record_config( stepWrapper.library, step)
+        primitiveCollector = null
+        String library = stepWrapper.library
+        stepWrapper = null
+        Map args = intoto_utils.record_config( library, step)
+
         List cmd = ["in-toto-record start --verbose"]
         cmd << "--step-name ${step}"
 
