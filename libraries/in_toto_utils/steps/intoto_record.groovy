@@ -52,10 +52,9 @@ void run(String step, String command = null ){
 }
 
 void record_start(String step){
-    TemplatePrimitiveCollector primitiveCollector = TemplatePrimitiveCollector.current()
-    if( primitiveCollector.hasStep(step) ){
-        def stepWrapper = primitiveCollector.getStep(step)[0]
-        primitiveCollector = null
+    if( TemplatePrimitiveCollector.current().hasStep(step) ){
+        def stepWrapper = TemplatePrimitiveCollector.current().getStep(step)[0]
+       
         String library = stepWrapper.library
         stepWrapper = null
         Map args = intoto_utils.record_config( library, step)
