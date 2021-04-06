@@ -22,7 +22,7 @@ void std(String step, body = {}){
 void run(String step, String command = null ){
     TemplatePrimitiveCollector primitiveCollector = TemplatePrimitiveCollector.current()
     if( primitiveCollector.hasStep(step) ){
-        def stepWrapper = primitiveCollector.getStep(step)
+        def stepWrapper = primitiveCollector.getStep(step)[0]
         Map args = intoto_utils.record_config( stepWrapper.library, step)
         List cmd = ["in-toto-run --verbose"]
         cmd << "--step-name ${step}"
@@ -52,7 +52,7 @@ void run(String step, String command = null ){
 void record_start(String step){
     TemplatePrimitiveCollector primitiveCollector = TemplatePrimitiveCollector.current()
     if( primitiveCollector.hasStep(step) ){
-        def stepWrapper = primitiveCollector.getStep(step)
+        def stepWrapper = primitiveCollector.getStep(step)[0]
         println("record_start: found step for ${step}: with stepWrapper.library: ${stepWrapper.library}; stepWrapper: ${stepWrapper.inspect()}")
         Map args = intoto_utils.record_config( stepWrapper.getLibrary(), step)
         List cmd = ["in-toto-record start --verbose"]
@@ -76,7 +76,7 @@ void record_start(String step){
 void record_stop(String step){
     TemplatePrimitiveCollector primitiveCollector = TemplatePrimitiveCollector.current()
     if( primitiveCollector.hasStep(step) ){
-        def stepWrapper = primitiveCollector.getStep(step)
+        def stepWrapper = primitiveCollector.getStep(step)[0]
     
         Map args = intoto_utils.record_config( stepWrapper.library, step)
         List cmd = ["in-toto-record stop --verbose"]
