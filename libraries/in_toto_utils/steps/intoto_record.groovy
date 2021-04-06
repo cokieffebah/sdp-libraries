@@ -54,7 +54,7 @@ void record_start(String step){
     if( primitiveCollector.hasStep(step) ){
         def stepWrapper = primitiveCollector.getStep(step)
         println("record_start: found step for ${step}: with stepWrapper.library: ${stepWrapper.library}; stepWrapper: ${stepWrapper.inspect()}")
-        Map args = intoto_utils.record_config( stepWrapper.library, step)
+        Map args = intoto_utils.record_config( stepWrapper.getLibrary(), step)
         List cmd = ["in-toto-record start --verbose"]
         cmd << "--step-name ${step}"
 

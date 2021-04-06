@@ -82,15 +82,16 @@ void wrapped_verify_layout(String layout_key_path = null, String layout_file = n
   }
 }
 
-void verify_layout(String layout_key_path = null, String layout_file = null, String final_dir = null, body){
+void verify_layout(String layout_key_path = null, String layout_file = null, String final_dir = null, Boolean verbose = null, body){
   
   layout_key_path = layout_key_path ?: config.verify?.layout_key_path
   layout_file = layout_file ?: config.verify?.output_file
   final_dir = final_dir ?: config.verify?.final_dir
+  verbose = null != verbose ? verbose : config.verify?.verbose
 
-  dir(final_dir){
+  dir( final_dir ){// finalDir 
     body()
-    def status = sh(returnStatus: true, script: "in-toto-verify --verbose --layout ${layout_file} --layout-key ${layout_key_path}")
+    def status = sh(returnStatus: true, script: "in-toto-verify ${ verbose ? '--verbose' : ''}s --layout ${layout_file} --layout-key ${layout_key_path}")
     println ""
     println "completed in-toto-verify.status: ${status}"
   }
