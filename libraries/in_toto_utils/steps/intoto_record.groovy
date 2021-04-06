@@ -97,7 +97,7 @@ void record_stop(String step){
 }
 
 @NonCPS
-def getStep(String stepName){
+def getStep(String step){
   TemplatePrimitiveCollector primitiveCollector = TemplatePrimitiveCollector.current()
-  return primitiveCollector.hasStep(step) ? primitiveCollector.getStep(stepName).first() : null
+  return primitiveCollector.hasStep(step) ? primitiveCollector.getStep(step).first() : null
 }
