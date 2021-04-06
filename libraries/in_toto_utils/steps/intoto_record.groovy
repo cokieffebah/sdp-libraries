@@ -78,9 +78,10 @@ void record_start(String step){
 }
 
 void record_stop(String step){
-    TemplatePrimitiveCollector primitiveCollector = TemplatePrimitiveCollector.current()
-    if( primitiveCollector.hasStep(step) ){
-        def stepWrapper = primitiveCollector.getStep(step)[0]
+    if( TemplatePrimitiveCollector.current().hasStep(step) ){
+        def stepWrapper = TemplatePrimitiveCollector.current().getStep(step)[0]
+       
+        String library = stepWrapper.library
     
         Map args = intoto_utils.record_config( stepWrapper.library, step)
         List cmd = ["in-toto-record stop --verbose"]
