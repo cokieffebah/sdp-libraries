@@ -1,6 +1,6 @@
 package libraries.in_toto_utils
 
-import org.boozallen.plugins.jte.init.primitives
+import org.boozallen.plugins.jte.init.primitives.TemplatePrimitiveCollector
 
 void call(String step, body = {}){
     std(step, body)
