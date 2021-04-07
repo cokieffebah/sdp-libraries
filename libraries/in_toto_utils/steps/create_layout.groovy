@@ -25,7 +25,7 @@ void create_verify_layout(String layout_file = null,
   if( show_tamper ){
     println ""
     println "tampering with scan.log and running in-toto-verify"
-    verify_layout("${signer_path}.pub", layout_file, final_product_dir, show_tamper)
+    verify_layout("${signer_path}.pub", layout_file, final_product_dir, true, show_tamper)
   }
 }
 
