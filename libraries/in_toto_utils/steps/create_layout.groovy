@@ -16,7 +16,7 @@ void create_verify_layout(String layout_file = null,
   from_collected_steps(signer_path, layout_file, input_json, true, inspect_config)
 
   verify_layout("${signer_path}.pub", layout_file, final_product_dir, ){ 
-      // copy in-toto metadata
+      // copy in-toto metadata including created layout_file
       sh("cp ../${layout_file} ../${signer_path} ../${config.functionary.path} ../*.pub ../*.*.link .")
       // copy the original intoto demo product tar
       sh("cp ../demo-project.tar.gz .")
