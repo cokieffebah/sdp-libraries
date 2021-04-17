@@ -44,6 +44,7 @@ void from_collected_steps(String signer_path = null,
   layout_json.key_paths = [config.functionary.path + ".pub"]
   layout_json.inspect = inspect_config ?: intoto_utils.inspect_config()
   layout_json.steps = []
+  layout_json.expires = "2021-07-18T02:15:43Z"
   List stepList = layout_json.steps
 
   collector.each { c ->

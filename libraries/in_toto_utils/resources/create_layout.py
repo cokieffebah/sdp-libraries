@@ -44,7 +44,7 @@ def create_layout(config_json, signer_path, func_path, layout_file):
     step["pubkeys"] = [func_key_data["keyid"]]
 
   layout = Layout.read(config_json)  
-  layout.set_relative_expiration(days=1,months=3)
+  #layout.set_relative_expiration(days=1,months=3)
   metadata = Metablock(signed=layout)
 
   signer_key = interface.import_rsa_privatekey_from_file(signer_path)
