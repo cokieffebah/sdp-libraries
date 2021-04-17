@@ -39,8 +39,7 @@ void from_collected_steps(String signer_path = null,
   signer_path = signer_path ?: config.layout.signer_path
   input_json = input_json ?: config.layout.input_json ?: "layout.json"
   layout_file = layout_file ?: config.layout.output_file ?: "the.layout"
-  Map expires_offset = config.layout.expires
-
+  
   Map layout_json = [_type:"layout"]
   layout_json.key_paths = [config.functionary.path + ".pub"]
   layout_json.inspect = inspect_config ?: intoto_utils.inspect_config()
