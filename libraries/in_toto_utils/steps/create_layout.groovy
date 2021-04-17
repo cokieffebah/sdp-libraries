@@ -59,7 +59,7 @@ void from_collected_steps(String signer_path = null,
       period = period.plusYears(expires_offset.years)
     }
 
-    layout_json.expires = java.time.LocalDateTime.now().plus(period).format(java.time.format.DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ssZ"))
+    layout_json.expires = java.time.LocalDateTime.now().plus(period).atOffset(java.time.ZoneOffset.UTC).format(java.time.format.DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ssX"))
   }
 
   List stepList = layout_json.steps
