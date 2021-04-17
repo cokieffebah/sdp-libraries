@@ -39,12 +39,30 @@ void from_collected_steps(String signer_path = null,
   signer_path = signer_path ?: config.layout.signer_path
   input_json = input_json ?: config.layout.input_json ?: "layout.json"
   layout_file = layout_file ?: config.layout.output_file ?: "the.layout"
+  Map expires_offset = config.layout.expires
 
   Map layout_json = [_type:"layout"]
   layout_json.key_paths = [config.functionary.path + ".pub"]
   layout_json.inspect = inspect_config ?: intoto_utils.inspect_config()
   layout_json.steps = []
-  layout_json.expires = "2021-07-18T02:15:43Z"
+
+  Map expires_offset = config.layout.expires
+  if( null != expires_offset ){
+    java.time.Period period = java.time.Period.ofDays(0)
+
+    if( expires_offset.days ){
+      period = period.plusDays(expires_offset.days)
+    }
+    if( expires_offset.months ){
+      period = period.plusMonths(expires_offset.months)
+    }
+    if( expires_offset.years ){
+      period = period.plusYears(expires_offset.years)
+    }
+
+    layout_json.expires = java.time.LocalDateTime.now().plus(period).toString()
+  }
+
   List stepList = layout_json.steps
 
   collector.each { c ->
