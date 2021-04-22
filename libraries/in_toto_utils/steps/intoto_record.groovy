@@ -1,5 +1,6 @@
 package libraries.in_toto_utils
 
+import com.cloudbees.groovy.cps.NonCPS
 import org.boozallen.plugins.jte.init.primitives.TemplatePrimitiveCollector
 
 void call(String step, body = {}){
