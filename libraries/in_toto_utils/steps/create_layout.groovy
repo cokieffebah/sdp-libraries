@@ -6,7 +6,7 @@ void call(){
 }
 
 void create_verify_layout(String layout_file = null, 
-  String final_product_dir = null, List inspect_config = null, def show_tamper = null){
+  String final_product_dir = null, List inspect_config = null, def show_tamper = null, def verify_block = null){
   
   layout_file = layout_file ?: config.layout.output_file ?: "the.layout"
   final_product_dir = final_product_dir ?: "final_product"
@@ -15,12 +15,16 @@ void create_verify_layout(String layout_file = null,
 
   from_collected_steps(signer_path, layout_file, input_json, true, inspect_config)
 
-  verify_layout("${signer_path}.pub", layout_file, final_product_dir, ){ 
+  def block_run = { 
       // copy in-toto metadata including created layout_file
       sh("cp ../${layout_file} ../${signer_path} ../${config.functionary.path} ../*.pub ../*.*.link .")
       // copy the original intoto demo product tar
       sh("cp ../demo-project.tar.gz .")
   }
+
+  block_run = verify_block ?: verify_block: block_run
+
+  verify_layout("${signer_path}.pub", layout_file, final_product_dir, null, block_run)
 
   if( show_tamper ){
     println ""
