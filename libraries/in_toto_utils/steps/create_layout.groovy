@@ -22,7 +22,7 @@ void create_verify_layout(String layout_file = null,
       sh("cp ../demo-project.tar.gz .")
   }
 
-  block_run = verify_block ?: verify_block: block_run
+  block_run = verify_block ?: block_run
 
   verify_layout("${signer_path}.pub", layout_file, final_product_dir, null, block_run)
 
