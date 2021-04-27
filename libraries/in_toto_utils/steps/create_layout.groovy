@@ -113,11 +113,6 @@ void verify_layout(String layout_key_path = null, String layout_file = null, Str
 
   dir( final_dir ){// finalDir 
     body()
-    sh("ls -l /workspace")
-    sh("ls -l /workspace/bin")
-    sh("ls -l")
-    sh("/workspace/bin/verify_image.sh")
-    
     def status = sh(returnStatus: true, script: "in-toto-verify ${ verbose ? '--verbose' : ''} --layout ${layout_file} --layout-key ${layout_key_path}")
     println ""
     println "completed in-toto-verify.status: ${status}"
