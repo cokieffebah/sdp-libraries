@@ -113,9 +113,7 @@ void verify_layout(String layout_key_path = null, String layout_file = null, Str
 
   dir( final_dir ){// finalDir 
     body()
-    //def status = sh(returnStatus: true, script: "in-toto-verify ${ verbose ? '--verbose' : ''} --layout ${layout_file} --layout-key ${layout_key_path}")
-    def status = sh(returnStdout: true, script: "in-toto-verify ${ verbose ? '--verbose' : ''} --layout ${layout_file} --layout-key ${layout_key_path}")
-    
+    def status = sh(returnStatus: true, script: "in-toto-verify ${ verbose ? '--verbose' : ''} --layout ${layout_file} --layout-key ${layout_key_path} &> verify.out")
     println ""
     println "completed in-toto-verify.status: ${status}"
   }
