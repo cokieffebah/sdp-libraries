@@ -6,7 +6,7 @@ void call(){
 }
 
 void create_verify_layout(String layout_file = null, 
-  String final_product_dir = null, List inspect_config = null, def show_tamper = null, def verify_block = null){
+  String final_product_dir = null, List inspect_config = null, Boolean verbose_layout = false, def show_tamper = null, def verify_block = null){
   
   layout_file = layout_file ?: config.layout.output_file ?: "the.layout"
   final_product_dir = final_product_dir ?: "final_product"
@@ -24,12 +24,12 @@ void create_verify_layout(String layout_file = null,
 
   block_run = verify_block ?: block_run
 
-  verify_layout("${signer_path}.pub", layout_file, final_product_dir, null, block_run)
+  verify_layout("${signer_path}.pub", layout_file, final_product_dir, verbose_layout, block_run)
 
   if( show_tamper ){
     println ""
     println "tampering with scan.log and running in-toto-verify"
-    verify_layout("${signer_path}.pub", layout_file, final_product_dir, true, show_tamper)
+    verify_layout("${signer_path}.pub", layout_file, final_product_dir, verbose_layout, show_tamper)
   }
 }
 
@@ -113,7 +113,7 @@ void verify_layout(String layout_key_path = null, String layout_file = null, Str
 
   dir( final_dir ){// finalDir 
     body()
-    def status = sh(returnStatus: true, script: "in-toto-verify ${ verbose ? '--verbose' : ''} --layout ${layout_file} --layout-key ${layout_key_path} &> verify.out")
+    def status = sh(returnStatus: true, script: "in-toto-verify ${ verbose ? '--verbose' : ''} --layout ${layout_file} --layout-key ${layout_key_path}")
     println ""
     println "completed in-toto-verify.status: ${status}"
   }
